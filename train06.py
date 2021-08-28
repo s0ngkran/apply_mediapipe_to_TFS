@@ -36,16 +36,13 @@ if __name__ == '__main__':
     N_SAVE_EVERY = 2
     LEARNING_RATE = 1e-3
     TRAINING_NAME = os.path.basename(__file__)
-    N_WORKERS = 3
+    N_WORKERS = 10
     LOG_FOLDER = 'log/'
     SAVE_FOLDER = 'save/'
     OPT_LEVEL = 'O2'
     IS_CHECK_RUN = args.check_run
     IS_BOOTSTRAP = args.bootstrap
 
-    if args.xx:
-        print([TRAINING_NAME])
-        1/0
 
     # continue training
     IS_CONTINUE = False if args.continue_save is None and args.continue_last == False else True
@@ -90,6 +87,7 @@ if __name__ == '__main__':
             pass
     IS_CHECK_RESULT = False if args.test is None else True
     TESTING_JSON = JSON_PATTERN.replace('XXX', args.test[1]) if args.test is not None else 'nothing'
+    print(TESTING_JSON,'-----')
     DEVICE = 'cpu'
     TESTING_FOLDER = 'TESTING_FOLDER/'
     # WEIGHT_PATH = './save/train09.pyepoch0000003702.model'
