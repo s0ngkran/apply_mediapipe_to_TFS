@@ -48,6 +48,12 @@ def read_loss(filename, **kwargs):
 
 def read_and_plot(filename, color, **kwargs):
     epoch, loss = read_loss(filename, **kwargs)
+    assert len(epoch) == len(loss)
+    epoch_lt = epoch[epoch < 4000]
+    lowest_loss_index = np.argmin(loss[:len(epoch_lt)])
+    lowest_ep = epoch[lowest_loss_index]
+    print('argmin', lowest_loss_index, len(loss), end=' ')
+    print('lowest_loss at ep =', lowest_ep)
     plt.plot(epoch, loss, color)
 
 def custom_plot():
@@ -98,12 +104,20 @@ def main(**kwargs):
     tr = input('training num (e.g. 1, 2, 3, ...) = ')
     save_folder = 'log/'
     py = 'py'
-    read_and_plot(save_folder + 'train%s.%s.loss' % (str(tr).zfill(2), py), 'r.', **kwargs)
-    read_and_plot(save_folder + 'train%s.%s.loss_va' % (str(tr).zfill(2), py), 'b-', **kwargs)
+    if True:
+    # for tr in range(16, 26):
+        # print()
+        # print()
+        # print(tr)
+        print('training ',end='')
+        read_and_plot(save_folder + 'train%s.%s.loss' % (str(tr).zfill(2), py), 'r.', **kwargs)
+        print('validation ',end='')
+        read_and_plot(save_folder + 'train%s.%s.loss_va' % (str(tr).zfill(2), py), 'b-', **kwargs)
     #read_and_plot(save_folder + 'train%s.%s.gts_loss' % (str(tr).zfill(2), py), 'g.', **kwargs)
     #read_and_plot(save_folder + 'train%s.%s.gtl_loss' % (str(tr).zfill(2), py), 'yx', **kwargs)
     plt.show()
 
 if __name__ == '__main__':
+    print('hi')
     main(last_update=False)
     # custom_plot()

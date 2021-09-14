@@ -26,9 +26,24 @@ class MyDataset(Dataset):
                 continue
             assert len(_hand_landmark[0]) == 21
 
-            for point in _hand_landmark[0]:
-                for k, v in point.items():
-                    my_landmark.append(v)
+            # get relative to index0
+            found_index0 = False
+            for i, point in enumerate(_hand_landmark[0]):
+                if found_index0:
+                    x_rel = x_index0 - point['X']
+                    y_rel = y_index0 - point['Y']
+                    z_rel = z_index0 - point['Z']
+                    my_landmark.append(x_rel)
+                    my_landmark.append(y_rel)
+                    my_landmark.append(z_rel)
+
+                if i == 0:
+                    x_index0 = point['X']
+                    y_index0 = point['Y']
+                    z_index0 = point['Z']
+                    found_index0 = True
+            assert len(my_landmark) == 60
+                
 
             gt_dict = {
                 # number
@@ -147,3 +162,4 @@ class MyDataset(Dataset):
             'hand_landmarks': self.hand_landmarks[idx],
         }
         return ans
+   

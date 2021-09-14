@@ -25,6 +25,7 @@ if __name__ == '__main__':
     parser.add_argument('-bt', '--bootstrap', help='train with bootstrap', action='store_true')
     parser.add_argument('-col', '--continue_last', help='continue at last epoch', action='store_true')
     parser.add_argument('-xx', '--xx', help='train with bootstrap', action='store_true')
+    parser.add_argument('-nw', '--n_worker', help='n_worker', type=int)
     args = parser.parse_args()
     print(args)
 
@@ -36,7 +37,7 @@ if __name__ == '__main__':
     N_SAVE_EVERY = 2
     LEARNING_RATE = 1e-3
     TRAINING_NAME = os.path.basename(__file__)
-    N_WORKERS = 10
+    N_WORKERS = args.n_worker
     LOG_FOLDER = 'log/'
     SAVE_FOLDER = 'save/'
     OPT_LEVEL = 'O2'
