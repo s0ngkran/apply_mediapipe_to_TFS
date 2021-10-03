@@ -78,8 +78,8 @@ if __name__ == '__main__':
             _ = {
                 'tr': 'training_set',
                 'va': 'validation_set',
-                #'te': 'testing_set',
-                'te': 'testing_set_new',
+                'te': 'testing_set',
+                'ten': 'testing_set_new',
             }
             assert args.test[1] in _.keys()
             args.test[1] = _[args.test[1]]

@@ -6,5 +6,8 @@ TFS_testing_new/
 TFS_testing_hard/
 test_photo/
 save/
+log/
+dataset_check_mp/
 mediapipe/
+dataset_for_mp_testing/
 __pycache__/
