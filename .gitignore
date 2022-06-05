@@ -10,4 +10,5 @@ log/
 dataset_check_mp/
 mediapipe/
 dataset_for_mp_testing/
+dataset_check_poh/
 __pycache__/

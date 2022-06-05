@@ -49,7 +49,7 @@ def read_loss(filename, **kwargs):
 def read_and_plot(filename, color, **kwargs):
     epoch, loss = read_loss(filename, **kwargs)
     assert len(epoch) == len(loss)
-    epoch_lt = epoch[epoch < 4000]
+    epoch_lt = epoch[epoch < 400000]
     lowest_loss_index = np.argmin(loss[:len(epoch_lt)])
     lowest_ep = epoch[lowest_loss_index]
     print('argmin', lowest_loss_index, len(loss), end=' ')
