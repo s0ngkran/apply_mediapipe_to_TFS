@@ -12,13 +12,15 @@ class Keypoint:
 
 class BBox:
     def __init__(self, x_min, x_max, y_min, y_max, img_w=1280, img_h=720):
-        # adding 20% 
-        percent = (x_max - x_min) * 0.20
+        num_const = 0
+        percent = (x_max - x_min) * num_const
         self.x_min = x_min - percent if x_min-percent > 0 else 0
         self.x_max = x_max + percent if x_min-percent < img_w else img_w
-        percent = (y_max - y_min) * 0.20
+        percent = (y_max - y_min) * num_const
         self.y_min = y_min - percent if y_min-percent > 0 else 0
         self.y_max = y_max + percent if y_min-percent < img_h else img_h
+    def get_bbox(self):
+        return self.x_min, self.y_min, self.x_max, self.y_max
 
 class Data:
     def __init__(self, data, root):
@@ -62,6 +64,7 @@ class Data:
 
 class DatasetForMPHTesting:
     def __init__(self, folder_path):
+        self.name = folder_path.split('/')[-1]
         self.root = folder_path
         self.meta_path = folder_path + '/meta.json'
         self.data = []
@@ -72,7 +75,7 @@ class DatasetForMPHTesting:
             self.data.append(dat)
         print('init %d data <- %s'%(len(self.data), self.meta_path))
 
-    def plot_keypoint_on_image(self, index=0):
+    def plot_keypoint_on_image(self, index=0, img=None, plotxy=None, only_plot=False):
         data = self.data[index]
         def plot_rect(x_min, x_max, y_min, y_max, color):
             x1, y1 = x_min, y_min
@@ -81,19 +84,46 @@ class DatasetForMPHTesting:
             x4, y4 = x_max, y_min
             plt.plot((x1,x2,x3,x4,x1), (y1,y2,y3,y4,y1), color=color, linewidth=3)
 
-        path = data.image_path
         hands = data.hands
         hand_bbox = data.hand_bboxs
-        print(path)
-        img = plt.imread(path)
-        plt.imshow(img)
+
+        if img is None:
+            path = data.image_path
+            img = plt.imread(path)
+        
+        if only_plot == False:
+            plt.imshow(img)
         for color_index, hand in enumerate(hands):
             for label_index, kp in enumerate(hand):
                 plt.plot(kp.x, kp.y, COLOR_LIST[color_index])
                 plt.text(kp.x, kp.y, str(label_index))
         for color_index, hand in enumerate(hand_bbox):
             plot_rect(hand.x_min, hand.x_max, hand.y_min, hand.y_max, COLOR_LIST[color_index][1:])
-        plt.show()
+        if plotxy is not None:
+            x_min = plotxy[0]
+            x_max = plotxy[1]
+            y_min = plotxy[2]
+            y_max = plotxy[3]
+            plot_rect(x_min, x_max, y_min, y_max, 'green')
+        if only_plot == False:
+            plt.show()
+        return hand.x_min, hand.y_min, hand.x_max, hand.y_max
+
+def read_overlap0():
+    overlap = DatasetForMPHTesting('./dataset_for_mp_testing/overlap0')
+    return overlap
+def read_overlap5():
+    overlap = DatasetForMPHTesting('./dataset_for_mp_testing/overlap5')
+    return overlap
+def read_overlap20():
+    overlap = DatasetForMPHTesting('./dataset_for_mp_testing/overlap20')
+    return overlap
+def read_overlap50():
+    overlap = DatasetForMPHTesting('./dataset_for_mp_testing/overlap50')
+    return overlap
+def read_overlap80():
+    overlap = DatasetForMPHTesting('./dataset_for_mp_testing/overlap80')
+    return overlap
 
 def main():
     overlap0 = DatasetForMPHTesting('./dataset_for_mp_testing/overlap0')
