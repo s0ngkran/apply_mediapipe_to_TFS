@@ -11,13 +11,13 @@ class HandLandmark(nn.Module):
         self.vgg16 = models.vgg16()
         self.fc1 = nn.Linear(1000, 2048)
         self.fc2 = nn.Linear(2048, 11)
+        # poh result
         self.act = nn.Softmax(dim=1)
     def forward(self, x):
         x = self.vgg16(x)
         x = self.fc1(x)
         x = self.fc2(x)
-        # x = self.act(x)
-
+        x = self.act(x)
         return x
 
 def test_forword():

@@ -109,6 +109,9 @@ class DatasetForMPHTesting:
             plt.show()
         return hand.x_min, hand.y_min, hand.x_max, hand.y_max
 
+def read_single_hand():
+    overlap = DatasetForMPHTesting('./dataset_for_mp_testing/single_hand')
+    return overlap
 def read_overlap0():
     overlap = DatasetForMPHTesting('./dataset_for_mp_testing/overlap0')
     return overlap

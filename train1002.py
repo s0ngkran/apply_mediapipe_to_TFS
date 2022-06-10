@@ -5,7 +5,7 @@ import numpy as np
 import cv2
 import json
 import time
-from model_tfs_vgg import HandLandmark
+from model_vgg_poh import HandLandmark
 from torch.utils.data import DataLoader
 from my_dataset_tfs_vgg import MyDataset
 import torch.nn.functional as F

@@ -5,3 +5,4 @@
 ``` 
 docker run -v /host/directory:/container/directory -other -options image_name command_to_run
 ```
+conda activate mediapipe

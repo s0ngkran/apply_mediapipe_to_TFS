@@ -14,13 +14,14 @@ sys.path.insert(0, root)
 from blazebase import resize_pad, denormalize_detections
 from blazepalm import BlazePalm
 from blazehand_landmark import BlazeHandLandmark
+from blazebase import BlazeDetector
 
 from visualization import draw_detections, draw_landmarks, draw_roi, HAND_CONNECTIONS, FACE_CONNECTIONS
 
 def implot(img):
     return plt.imshow(img[:,:,(2,1,0)])
 
-def main():
+def get_result(overlap_obj, iou_thres=0.5):
     gpu = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     torch.set_grad_enabled(False)
     # back_detector = False
@@ -46,7 +47,7 @@ def main():
 
     WINDOW='test'
     cv2.namedWindow(WINDOW)
-    overlap = read_overlap80()
+    overlap = overlap_obj
     assert overlap is not None
     # path_  ='./mycode/imgs/'
     # im_name = 'a_%s.png'%str(num).zfill(5)
@@ -55,8 +56,8 @@ def main():
     assert plot == True or plot == False
     cnt = 0
     correct =0
-    for index in range(len(overlap.data)):
-    # for index in [4]:
+    # for index in range(len(overlap.data)):
+    for index in [11]:
         cnt += 1
         img_data = overlap.data[index]
         frame = cv2.imread(img_data.image_path)
@@ -147,9 +148,8 @@ def main():
                 ans_iou.append(_)
             print('[%s] iou'%index, ans_iou)
             def is_correct():
-                thres = 0.4
                 for iou in ans_iou:
-                    if iou < thres:
+                    if iou < iou_thres:
                         return False
                 return True
             ans = is_correct()
@@ -164,6 +164,7 @@ def main():
             plt.title('%s [%d]'%(overlap.name, index), )
             plt.show()
     print(overlap.name, '%d/%d (%.2f)'%(correct, cnt, correct/cnt*100))
+    return '%s %d/%d (%.2f)'%(overlap.name, correct, cnt, correct/cnt*100)
 
         # print(np.shape(img))
         # 1/0
@@ -174,5 +175,20 @@ def main():
         # cv2.imwrite(str(os.path.join('./im_out/', im_name)), frame[:,:,::-1])
         # hasFrame, frame = capture.read()
         # hasFrame, frame = True, 
+def main():
+    # aa = get_result(read_single_hand())
+    a = get_result(read_overlap0())
+    # b = get_result(read_overlap5())
+    # c = get_result(read_overlap20())
+    # d = get_result(read_overlap50())
+    # e = get_result(read_overlap80())
+    # print(aa)
+    # print(b)
+    # print(c)
+    # print(d)
+
 if __name__ == '__main__':
     main()
+    # a = BlazeDetector().min_score_thresh
+    # b = BlazeDetector().min_suppression_thresh
+    # print(a, b)

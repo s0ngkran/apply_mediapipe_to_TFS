@@ -60,11 +60,14 @@ for training, ep in zip(training, ep):
 	name = 'train%s.pyepoch%s.model'%(str(training).zfill(2), str(ep).zfill(10))
 	keep_model_list.append(name)
 
-for fname in fnames:
-	if fname in keep_model_list:
-		src = os.path.join('./save', fname)
-		dist = os.path.join('./p_save', fname)
-		shutil.copyfile(src, dist)
-		print(src, dist)
+print(keep_model_list)
+for i in keep_model_list:
+	print(i)
+# for fname in fnames:
+# 	if fname in keep_model_list:
+# 		src = os.path.join('./save', fname)
+# 		dist = os.path.join('./p_save', fname)
+# 		shutil.copyfile(src, dist)
+# 		print(src, dist)
 
 
